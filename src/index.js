@@ -4,12 +4,13 @@ import { Provider } from 'react-redux'
 
 import store from './store.js'
 import { addToCart, updateCart, deleteFromCart } from './actions/cart-actions'
+import App from './components/App'
 
-const App = <h1>Redux Shopping Cart</h1>
+const cartData = store.getState().shoppingCart
 
 ReactDOM.render(
 	<Provider store={store}>
-		{ App }
+		<App  data={cartData} />
 	</Provider>,
 	document.getElementById('root')
 )
