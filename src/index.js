@@ -1,57 +1,18 @@
-import { createStore, combineReducers } from 'redux'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
-// initial state
-const initialState = {
-	cart: [
-		{
-			product: 'bread 700g',
-			quantity: 2,
-			unitCost: 90
-		},
-		{
-			product: 'milk 500ml',
-			quantity: 1,
-			unitCost: 47
-		},
-	]
-}
+import store from './store.js'
+import { addToCart, updateCart, deleteFromCart } from './actions/cart-actions'
 
-// Actions
-const ADD_TO_CART = 'ADD_TO_CART'
+const App = <h1>Redux Shopping Cart</h1>
 
-// Reducers
-const productsReducer = function(state = [], action) {
-	return state
-}
-
-const cartReducer = function(state = initialState, action) {
-	switch(action.type) {
-		case ADD_TO_CART: {
-			return {
-				...state, 
-				cart: [...state.cart, action.payload]
-			}
-		}
-		default: return state
-	}
-}
-
-// Action functions
-function addToCart(product, quantity, unitCost) {
-	return {
-		type: ADD_TO_CART,
-		payload: { product, quantity, unitCost}
-	}
-}
-
-const allReducers = {
-	products: productsReducer,
-	shoppingCart: cartReducer
-}
-
-const rootReducer = combineReducers(allReducers)
-
-let store = createStore(rootReducer)
+ReactDOM.render(
+	<Provider store={store}>
+		{ App }
+	</Provider>,
+	document.getElementById('root')
+)
 
 console.log("initialState: ", store.getState())
 
@@ -62,5 +23,7 @@ let unsubscribe = store.subscribe(() =>
 store.dispatch(addToCart('Coffee 250g', 1, 250))
 store.dispatch(addToCart('Flour 1kg', 2, 110))
 store.dispatch(addToCart('Juice 2L', 1, 250))
+
+store.dispatch(updateCart('Flour 1kg', 5, 110))
 
 unsubscribe()
